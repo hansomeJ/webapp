@@ -8,44 +8,250 @@
     <link rel="stylesheet" href="{% static 'css/common1.css' %}">
     <script type="text/javascript" src="{% static 'js/lib/jQuery3.2.1/jquery-3.2.1.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/lib/bootstrap-3.3.7-dist/js/bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/app/book.js' %}"></script>
 </head>
-<body class="container">
-<div class="jumbotron">
-    <div class="panel panel-default">
-        <div class="panel-heading ">
-        {% block header %}
-            <div class="text-center">
-            <h3>
-                所有投票信息
-            </h3>
+<body class="container-fluid text-center">
 
+{% block img %}
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <img src="{% static 'img/sf2.png' %}" alt="...">
+            <div class="carousel-caption">
+                qwe
             </div>
-
-        {% endblock %}
         </div>
-        <div class="panel-body">
-            {% block middle %}
-                <div class="text-center text-danger"><h4>{{ msg }}</h4></div>
-                <div class="list-group">
-                {% for q in question %}
-                    <a href="{% url 'poll:vote' q.id %}" class="list-group-item ">
-                        {{ forloop.counter }}、
-                        {{ q.questions }}
-                    </a>
-                {% empty %}
-                    <a href="{%  url 'poll:add' %}" class="list-group-item text-center">
-                        <h3 class="btn btn-success">还没有数据！请添加</h3>
-                    </a>
-                {% endfor %}
-                </div>
-                <div class="text-center">
-                    <a href="{%  url 'poll:add' %}" class="btn btn-warning">我要发起投票</a>
-                </div>
-            {% endblock %}
+        <div class="item">
+            <img src="{% static 'img/sf3.png' %}" alt="...">
+            <div class="carousel-caption">
+                123
+            </div>
+        </div>
+        <div class="item">
+            <img src="{% static 'img/sf1.jpg' %}" alt="...">
+            <div class="carousel-caption">
+                666
+            </div>
         </div>
     </div>
-</div>
 
+    <!-- Controls -->
+    <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+<script>
+    // <!--    控制自动播放的速度,单位毫秒-->
+    $('.carousel').carousel({
+        interval: 4000
+    })
+</script>
+{% endblock %}
+{% block book %}
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" id="title">
+    图书界面
+</button>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <div>
+                    <h4 class="modal-title title" id="myModalLabel">所有图书</h4>
+                </div>
+                <div>
+                    <h4 class="modal-title title hidden" id="myModalLabel1">添加图书</h4>
+                </div>
+
+            </div>
+            <div class="modal-body">
+                <ul class="list-group content">
+                    {% for b in books %}
+                    <li class="list-group-item"><a href="{% url 'booket:detail' b.id %}">{{ forloop.counter }}、{{ b.book_name }}</a></li>
+                    {% empty %}
+                    <li class="list-group-item"><a href="#" class="addbook">还没有书籍请添加</a></li>
+                    {% endfor %}
+                </ul>
+                <form class="form-horizontal content hidden">
+                    <div class="form-group">
+                        {% csrf_token %}
+                        <label for="book_name" class="col-sm-2 control-label">书名</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="book_name" placeholder="请输入书名" required>
+                        </div>
+                        <div class="col-sm-4 book_name">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="author" class="col-sm-2 control-label">作者</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="author" placeholder="请输入作者" required disabled>
+                        </div>
+                        <div class="col-sm-4 author">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="type" class="col-sm-2 control-label">类型</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="type" placeholder="例如：玄幻、修仙..." required
+                                   disabled>
+                        </div>
+                        <div class="col-sm-4 type">
+
+                        </div>
+                    </div>
+                    <div class="form-group text-center">
+                        <div class="col-sm-offset-2 col-sm-6">
+                            <button type="submit" class="btn btn-success" id="addbtn" disabled>添加</button>
+                        </div>
+                        <div class="text-center text-primary col-sm-4" id="msg">
+
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭页面</button>
+                <button type="button" class="btn btn-default addbook">添加书籍</button>
+                <button type="button" class="btn btn-default addbook hidden">图书列表</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    // <!--  切换图书列表与图书添加页面  -->
+    $('.addbook').on('click', function () {
+        // alert('添加图书'
+        $('.title,.content,.addbook').toggleClass('hidden');
+    });
+    //点击书名输入框会给出提示
+    $('#book_name').on('click', function () {
+        $('.book_name').empty().append('<h5 class="text-primary">请输入一个书名</h5>');
+        $('#book_name').on('change', function () {
+            var $book_name = $('#book_name').val();
+            $.ajax({
+
+                url: '/booket/book_name/',
+                data: {'book_name': $book_name},
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.isempty) {
+                        $('.book_name').empty().append('<h5 class="text-danger">书名不能为空！</h5>')
+                    } else if (data.isexists) {
+                        $('.book_name').empty().append('<h5 class="text-danger">该书已经存在！</h5>')
+                    } else if (data.issuccess) {
+                        $('.book_name').empty().append('<h5 class=text-success>该书名可以使用！</h5>');
+                        $('#author').removeAttr('disabled')
+                    }
+                }
+            })
+        })
+    });
+
+
+    //    点击作者输入框会给出一个提示
+    $('#author').on('click', function () {
+        $('.author').empty().append('<h5 class="text-primary">输入该书的作者</h5>')
+        $('#author').on('change', function () {
+            let $auther = $('#author').val();
+            $.ajax({
+                url: '/booket/author/',
+                data: {'author': $auther},
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.issuccess) {
+                        $('.author').empty().append('<h5 class="text-success">该作者可以使用！</h5>');
+                        $('#type').removeAttr('disabled')
+                    } else {
+                        $('.author').empty().append('<h5 class="text-danger">作者不能为空！</h5>')
+                    }
+                }
+
+            })
+        })
+    });
+    //    点击类型输入框给出提示
+    $('#type').on('click', function () {
+        $('.type').empty().append('<h5 class="text-primary">输入该书的类型</h5>');
+        $('#type').on('change', function () {
+            let $type = $('#type').val();
+            $.ajax({
+                url: '/booket/type/',
+                data: {'type': $type},
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.issuccess) {
+                        $('.type').empty().append('<h5 class="text-success"> 类型输入正确！ </h5>')
+                        $('#addbtn').removeAttr('disabled')
+                    } else {
+                        $('.type').empty().append('<h5 class="text-danger"> 类型不能为空！</h5>')
+                    }
+                }
+            })
+        });
+
+    });
+    $('#addbtn').on('click', function () {
+        let $book_name = $('#book_name').val();
+        let $author = $('#author').val();
+        let $type = $('#type').val();
+        $.ajax({
+            url: '/booket/add/',
+            data: {'book_name': $book_name, 'author': $author, 'type': $type},
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                if (data.issuccess) {
+                    $('#book_name,#author,#type').empty();
+                    $('#author,#type,#addbtn').attr('disabled');
+                    $('#msg').empty().append('<h4>添加书籍成功</h4>')
+                } else {
+                    $('#msg').empty().append('<h4>添加书籍失败</h4>')
+                }
+            }
+        })
+    });
+
+
+</script>
+{% endblock %}
+{% block hero %}
+<!-- Large modal -->
+<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">英雄页面</button>-->
+
+<!--<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">-->
+<!--    <div class="modal-dialog modal-lg" role="document">-->
+<!--        <div class="modal-content">-->
+<!--            123-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+{% endblock %}
 </body>
 
 </html>
