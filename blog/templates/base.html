@@ -192,9 +192,9 @@
                 <div class="widget widget-category">
                     <h3 class="widget-title">分类</h3>
                     <ul>
-                        {% for t in getCategory %}
+                        {% getCategory as a %}
+                        {% for t in a %}
                         <li>
-                            {{t}}
                             <a href="#">{{t.title}}<span class="post-count">({{t.article_set.count}})</span></a>
                         </li>
                         {% endfor %}
