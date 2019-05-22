@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block book %}
+
+<div class="panel panel-primary text-center">
+    <div class="panel-heading">英雄详情 —— {{hero.hero_name}} </div>
+    <div class="panel-body">
+        <div class="col-sm-2"></div>
+        <div class=" col-sm-8">
+            <table class="table table-striped table-bordered table-hover">
+                <tr>
+                    <td>英雄名</td>
+                    <td>{{hero.hero_name}}</td>
+                </tr>
+                <tr>
+                    <td>性别</td>
+                    <td>{{hero.gender}}</td>
+                </tr>
+                <tr>
+                    <td>绝招</td>
+                    <td>{{hero.skill}}</td>
+                </tr>
+                <tr>
+                    <td>属于书籍</td>
+                    <td>
+                        {{hero.book.book_name}}
+                    </td>
+                </tr>
+            </table>
+            <a href="{% url 'booket:index' %}" class="btn btn-primary btns"> 返回首页</a>
+            <a href="{% url 'booket:detail' hero.book.id %}" class="btn btn-primary  btns"> 返回书籍详情页 </a>
+            <div class="col-sm-2"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block hero %}
+{% endblock %}

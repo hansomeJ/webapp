@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% block book %}
+
+<div class="panel panel-primary text-center">
+    <div class="panel-heading">图书详情 —— {{book.book_name}} </div>
+    <div class="panel-body">
+        <div class="col-sm-2"></div>
+        <div class=" col-sm-8">
+            <table class="table table-striped table-bordered table-hover">
+                <tr>
+                    <td>书名</td>
+                    <td>{{book.book_name}}</td>
+                </tr>
+                <tr>
+                    <td>作者</td>
+                    <td>{{book.author}}</td>
+                </tr>
+                <tr>
+                    <td>类型</td>
+                    <td>{{book.type}}</td>
+                </tr>
+                <tr>
+                    <td>书内英雄</td>
+                    <td>
+                        {% for h in heros %}
+                        <a href="{% url 'booket:hero_detail' h.id %}">{{h.hero_name}}</a>、
+                        {% empty %}
+                        <a href="{% url 'booket:add_hero' book.id %}">还没有英雄，快去添加吧！</a>
+
+                        {% endfor %}
+                    </td>
+                </tr>
+            </table>
+            <form class="form-horizontal content hidden">
+                <div class="form-group">
+                    {% csrf_token %}
+                    <input class="hidden" value="{{book.id}}" id="b_id" >
+                    <label for="book_name" class="col-sm-2 control-label">书名</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="book_name" value="{{ book.book_name }}" required>
+                    </div>
+                    <div class="col-sm-4 book_name">
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="author" class="col-sm-2 control-label">作者</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="author" value="{{ book.author }}" required disabled>
+                    </div>
+                    <div class="col-sm-4 author">
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="type" class="col-sm-2 control-label">类型</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="type" value="{{ book.type }}" required
+                               disabled>
+                    </div>
+                    <div class="col-sm-4 type">
+
+                    </div>
+                </div>
+                </form>
+
+            <a href="{% url 'booket:index' %}" class="btn btn-primary btns"> 返回首页</a>
+            <a href="{% url 'booket:add_hero' book.id %}" class="btn btn-primary btns"> 添加英雄</a>
+            <a class="btn btn-primary hidden btns" id="submit"> 确认修改 </a>
+            <a class="btn btn-primary btns" id="book_update"> 修改信息 </a>
+            <a class="btn btn-primary hidden btns"> 返回详情页 </a>
+            <div class="col-sm-2"></div>
+        </div>
+    </div>
+</div>
+<script>
+    $('.btns').on('click',function () {
+        $('.btns,.content,.table').toggleClass('hidden')
+    });
+    //点击书名输入框会给出提示
+    $('#book_name').on('click', function () {
+        $('.book_name').empty().append('<h5 class="text-primary">请输入一个新的书名</h5>');
+        $('#book_name').on('change', function () {
+            var $book_name = $('#book_name').val();
+            $.ajax({
+
+                url: '/booket/book_name/',
+                data: {'book_name': $book_name},
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.isempty) {
+                        $('.book_name').empty().append('<h5 class="text-danger">书名不能为空！</h5>')
+                    } else if (data.isexists) {
+                        $('.book_name').empty().append('<h5 class="text-danger">该书已经存在！</h5>')
+                    } else if (data.issuccess) {
+                        $('.book_name').empty().append('<h5 class=text-success>该书名可以使用！</h5>');
+                        $('#author').removeAttr('disabled')
+                    }
+                }
+            })
+        })
+    });
+
+
+    //    点击作者输入框会给出一个提示
+    $('#author').on('click', function () {
+        $('.author').empty().append('<h5 class="text-primary">输入一个新的作者</h5>')
+        $('#author').on('change', function () {
+            let $auther = $('#author').val();
+            $.ajax({
+                url: '/booket/author/',
+                data: {'author': $auther},
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.issuccess) {
+                        $('.author').empty().append('<h5 class="text-success">该作者可以使用！</h5>');
+                        $('#type').removeAttr('disabled')
+                    } else {
+                        $('.author').empty().append('<h5 class="text-danger">作者不能为空！</h5>')
+                    }
+                }
+
+            })
+        })
+    });
+    //    点击类型输入框给出提示
+    $('#type').on('click', function () {
+        $('.type').empty().append('<h5 class="text-primary">输入一个新的类型</h5>');
+        $('#type').on('change', function () {
+            let $type = $('#type').val();
+            $.ajax({
+                url: '/booket/type/',
+                data: {'type': $type},
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.issuccess) {
+                        $('.type').empty().append('<h5 class="text-success"> 类型输入正确！ </h5>')
+                    } else {
+                        $('.type').empty().append('<h5 class="text-danger"> 类型不能为空！</h5>')
+                    }
+                }
+            })
+        });
+
+    });
+    $('#submit').on('click', function () {
+        let $book_name = $('#book_name').val();
+        let $author = $('#author').val();
+        let $type = $('#type').val();
+        let $id = $('#b_id').val();
+        $.ajax({
+            url: '/booket/update/',
+            data: {'book_name': $book_name, 'author': $author, 'type': $type,'id':$id},
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                if (data.issuccess) {
+                    $('#book_name,#author,#type').empty();
+                    $('#author,#type').attr('disabled');
+                    alert('修改书籍成功！')
+                } else {
+                    alert('修改书籍失败！')
+                }
+            }
+        })
+    });
+</script>
+{% endblock %}
+{% block hero %}
+{% endblock %}

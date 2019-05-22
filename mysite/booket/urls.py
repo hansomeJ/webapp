@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^hero_detail/(?P<h_id>\d+)/',views.hero_detail,name='hero_detail'),
     url(r'^add_hero/(?P<b_id>\d+)/',views.add_hero,name='add_hero'),
     url(r'^update/',views.update,name='update'),
+    # url(r'^test/',Test.Views(),name='uprdate'),
 ]

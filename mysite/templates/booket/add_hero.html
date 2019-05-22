@@ -1,0 +1,44 @@
+{% extends 'booket/bookdetail.html' %}
+{% block book %}
+<div class="panel panel-primary text-center">
+    <div class="panel-heading">添加英雄 —— {{ book.book_name }}</div>
+    <div class="panel-body">
+        <form class="form-horizontal content " action="#" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="hero_name" class="col-sm-2 control-label">英雄名</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="hero_name" name="hero_name" placeholder="请输入英雄名..." required>
+                </div>
+                <div class="col-sm-4 book_name">
+
+                </div>
+            </div>
+            <div class="form-group text-left">
+                <label class="col-sm-2 control-label">性别</label>
+                <div class="col-sm-6">
+                    <input type="radio" name="gender" value="男" checked>男
+                    <input type="radio" name="gender" value="女">女
+                </div>
+                <div class="col-sm-4 author">
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="skill" class="col-sm-2 control-label">绝招</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="skill" name="skill" placeholder="请输入英雄的绝招..." required
+                           >
+                </div>
+                <div class="col-sm-4 type">
+
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <input type="submit" name="submit" value="添加" class="btn btn-success text-center">
+
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
