@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.core.paginator import Paginator
 from .models import Article
 import markdown
+from comments.forms import CommentForm
 
 # Create your views here.
 
@@ -40,5 +41,6 @@ def detail(request,id):
     ])
     article.content=mk.convert(article.content)
     article.toc=mk.toc
+    cf=CommentForm()
     return render(request,'single.html',locals())
 

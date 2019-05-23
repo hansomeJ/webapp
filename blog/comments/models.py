@@ -1,5 +1,6 @@
 from django.db import models
 from article.models import Article
+from datetime import datetime
 
 
 # Create your models here.
@@ -10,6 +11,7 @@ class Comment(models.Model):
     url = models.URLField(blank=True, null=True, verbose_name='评论人主页')
     content = models.CharField(max_length=500, verbose_name='评论内容')
     article = models.ForeignKey(Article, on_delete=models.CASCADE, verbose_name='评论的文章')
+    create_time=models.DateTimeField(auto_now_add=True)
 
     class Meta():
         verbose_name = '评论'
