@@ -20,5 +20,26 @@ def myslice(value, length):
 # 自定义的模板标签
 @register.simple_tag()
 def getCategory():
-
     return Category.objects.all()
+
+
+# 归档
+@register.simple_tag()
+def getarchive(num=3):
+    result = Article.objects.dates("pub_time", 'month', order='DESC')[:num]
+    # print(result)
+    return result
+
+
+# 最新文章
+@register.simple_tag()
+def get_new_article():
+    result = Article.objects.all().order_by("-pub_time")[:3]
+    return result
+
+
+# 标签云
+@register.simple_tag()
+def get_all_tag():
+    result = Tag.objects.all()
+    return result

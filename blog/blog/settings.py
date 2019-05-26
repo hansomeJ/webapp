@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'article',
     'comments',
+    'tinymce',
 ]
 
 MIDDLEWARE = [
@@ -123,7 +124,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -131,3 +132,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS=[os.path.join(BASE_DIR,'static')]
+
+# tinymce的配置项
+TINYMCE_JS_URL  = "/static/tiny_mce/tiny_mce.js"
+TINYMCE_JS_ROOT = "/static/tiny_mce/"
+TINYMCE_DEFAULT_CONFIG = {
+    'theme': "advanced",
+    'width': 600,
+    'height': 400,
+ }
