@@ -6,16 +6,19 @@
         <div class="row">
             <main class="col-md-12">
                 <h1 class="page-title">联系我们</h1>
+                <div class="text-center text-danger"><h3>{{msg}}</h3></div>
+
                 <article class="post">
                     <div class="entry-content clearfix">
-                        <form action="#" method="post" class="contact-form">
+                        <form action="{% url 'article:contact' %}" method="post" class="contact-form">
                             <div class="row">
                                 <div class="col-md-6 col-md-offset-3">
+                                    {% csrf_token %}
                                     <input type="text" name="name" placeholder="名字" required>
                                     <input type="email" name="email" placeholder="邮箱" required>
                                     <input type="text" name="subject" placeholder="主题" required>
-                                    <textarea name="message" rows="7" placeholder="信息" required></textarea>
-                                    <button class="btn-send btn-5 btn-5b ion-ios-paperplane"><span>发送</span>
+                                    <textarea name="info" rows="7" placeholder="信息" ></textarea>
+                                    <button type="submit" class="btn-send btn-5 btn-5b ion-ios-paperplane"><span>发送</span>
                                     </button>
                                 </div>
                             </div>    <!-- row -->

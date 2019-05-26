@@ -1,5 +1,5 @@
 from django import template
-from article.models import Article, Category, Tag
+from article.models import Article, Category, Tag, Ads
 
 register = template.Library()
 
@@ -42,4 +42,9 @@ def get_new_article():
 @register.simple_tag()
 def get_all_tag():
     result = Tag.objects.all()
+    return result
+
+@register.simple_tag()
+def get_all_ads():
+    result = Ads.objects.all()
     return result

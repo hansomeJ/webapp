@@ -62,3 +62,14 @@ class MessageInfo(models.Model):
 
     def __str__(self):
         return self.subject
+
+class Ads(models.Model):
+    id = models.AutoField(primary_key=True,verbose_name='图片主键')
+    img = models.ImageField(upload_to='img',verbose_name='图片')
+    desc = models.CharField(max_length=30,verbose_name='图片描述')
+
+    def __str__(self):
+        return self.desc
+    class Meta():
+        verbose_name='轮播图'
+        verbose_name_plural=verbose_name
