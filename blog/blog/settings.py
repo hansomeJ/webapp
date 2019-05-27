@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'article',
     'comments',
     'tinymce',
+    'haystack',
 ]
 
 MIDDLEWARE = [
@@ -154,3 +155,18 @@ DEFAULT_FROM_EMAIL = 'zzy0371 <18137128152@163.com>' #用户名字
 
 # 媒体文件路径
 MEDIA_ROOT = os.path.join(BASE_DIR,'static/media')
+
+# 全文搜索配置
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'article.whoosh_cn_backend.WhooshEngine',
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+    }
+}
+
+# 配置搜索结果分页
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 10
+
+# 配置索引实时更新
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'

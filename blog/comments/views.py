@@ -9,7 +9,7 @@ class add_comment(View):
     def post(self,request,id):
         cf = CommentForm(request.POST)
         if cf.is_valid():
-            article=get_object_or_404(Article,pk=id)
+            article=get_object_or_404(Article, pk=id)
             username=cf.cleaned_data['name']
             # email=cf.changed_data['email']
             email=request.POST.get('email')

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>轮播图</title>
+</head>
+<body>
+<form action="{% url 'article:addimg' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    选择图片: <input type="file" name="img">
+    描述：<input type="text" name="desc">
+    <input type="submit" value="提交">
+</form>
+
+</body>
+</html>

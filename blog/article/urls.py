@@ -10,6 +10,7 @@ urlpatterns = [
     url('category/(\d+)/', views.category, name='category'),
     url('rss/', feed.BlogFeed(), name='rss'),
     url('contact/', views.contact, name='contact'),
+    url('addimg/', views.Add.as_view(), name='addimg'),
     url('^$', views.index, name='index'),
 
 ]
